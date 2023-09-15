@@ -4,16 +4,15 @@ using Newtonsoft.Json;
 
 namespace card_shop_api.Services
 {
-	public class MagicRequest : IMagicRequest
+	public class PokemonRequest : IPokemonRequest
 	{
-		private readonly string apiUrl = "https://api.scryfall.com/cards/search?order=set&q=set%3Aafr";
+		private readonly string apiUrl = "https://api.pokemontcg.io/v2/cards/?q=set.id:sv3";
 
-		public async Task<List<Card>> GetCards()
+		public  async Task<List<Card>> GetCards()
 		{
 			try
 			{
 				HttpClient httpClient = new HttpClient();
-				httpClient.DefaultRequestHeaders.Add("Accept-Language", "pt-br");
 
 				HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
@@ -21,9 +20,9 @@ namespace card_shop_api.Services
 				{
 					string jsonString = await response.Content.ReadAsStringAsync();
 
-					MagicResponse json = JsonConvert.DeserializeObject<MagicResponse>(jsonString);
+					PokemonResponse json = JsonConvert.DeserializeObject<PokemonResponse>(jsonString);
 
-					List<MagicCard> magicCardList =  json.data.ConvertAll(card => new MagicCard(card));
+					List<PokemonCard> magicCardList =  json.data.ConvertAll(card => new PokemonCard(card));
 					List<Card> cardList = magicCardList.Cast<Card>().ToList();
 					return cardList;
 				}

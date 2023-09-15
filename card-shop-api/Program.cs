@@ -16,7 +16,8 @@ namespace card_shop_api
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-			builder.Services.AddScoped<ITcgRequest, MagicRequest>();
+			builder.Services.AddScoped<IMagicRequest, MagicRequest>();
+			builder.Services.AddScoped<IPokemonRequest, PokemonRequest>();
 
 			var app = builder.Build();
 
