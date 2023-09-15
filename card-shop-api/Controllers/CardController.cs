@@ -21,17 +21,33 @@ namespace card_shop_api.Controllers
 		[HttpGet("/magic")]
 		public async Task<ActionResult<List<Card>>> GetMagicCards()
 		{
-			List<Card> cards = await _magicRequest.GetCards();
+			List<Card> cards = await _magicRequest.GetCards<Card>();
 			Console.WriteLine(cards.Count);
 			return Ok(cards);
 		}
 
 		[HttpGet("/pokemon")]
-		public async Task<ActionResult<List<Card>>> GetPokemonCards()
+		public async Task<ActionResult<List<PokemonCard>>> GetPokemonCards()
 		{
-			List<Card> cards = await _pokemonRequest.GetCards();
+			List<PokemonCard> cards = await _pokemonRequest.GetCards<PokemonCard>();
 			Console.WriteLine(cards.Count);
 			return Ok(cards);
 		}
+
+		[HttpGet("/multi-card")]
+		public async Task<ActionResult<MultiCard>> GetMiltiCards()
+		{
+			List<PokemonCard> pokemonCards = await _pokemonRequest.GetCards<PokemonCard>();
+			List<MagicCard> magicCards = await _magicRequest.GetCards<MagicCard>();
+
+			MultiCard multiCard = new MultiCard
+			{
+				pokemonCards = pokemonCards,
+				magicCard = magicCards
+			};
+
+			return Ok(multiCard);
+		}
+
 	}
 }

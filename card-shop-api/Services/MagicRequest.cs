@@ -8,7 +8,7 @@ namespace card_shop_api.Services
 	{
 		private readonly string apiUrl = "https://api.scryfall.com/cards/search?order=set&q=set%3Aafr";
 
-		public async Task<List<Card>> GetCards()
+		public async Task<List<T>> GetCards<T>()
 		{
 			try
 			{
@@ -24,11 +24,11 @@ namespace card_shop_api.Services
 					MagicResponse json = JsonConvert.DeserializeObject<MagicResponse>(jsonString);
 
 					List<MagicCard> magicCardList =  json.data.ConvertAll(card => new MagicCard(card));
-					List<Card> cardList = magicCardList.Cast<Card>().ToList();
+					List<T> cardList = magicCardList.Cast<T>().ToList();
 					return cardList;
 				}
 
-				return new List<Card> { };
+				return new List<T> { };
 
 			}
 			catch (Exception ex)

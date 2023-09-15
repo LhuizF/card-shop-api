@@ -8,7 +8,7 @@ namespace card_shop_api.Services
 	{
 		private readonly string apiUrl = "https://api.pokemontcg.io/v2/cards/?q=set.id:sv3";
 
-		public  async Task<List<Card>> GetCards()
+		public  async Task<List<T>> GetCards<T>()
 		{
 			try
 			{
@@ -23,11 +23,11 @@ namespace card_shop_api.Services
 					PokemonResponse json = JsonConvert.DeserializeObject<PokemonResponse>(jsonString);
 
 					List<PokemonCard> magicCardList =  json.data.ConvertAll(card => new PokemonCard(card));
-					List<Card> cardList = magicCardList.Cast<Card>().ToList();
+					List<T> cardList = magicCardList.Cast<T>().ToList();
 					return cardList;
 				}
 
-				return new List<Card> { };
+				return new List<T> { };
 
 			}
 			catch (Exception ex)
