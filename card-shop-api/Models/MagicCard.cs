@@ -10,6 +10,7 @@ namespace card_shop_api.Models
 			Id = magicCard.id;
 			Name = magicCard.name;
 			Image = magicCard.image_uris.normal;
+			Price = magicCard.prices.usd;
 			TCG = TCGTypes.Magic;
 		}
 	}
